@@ -18,28 +18,42 @@ function getInitCall (){
       success: function(data) {
         var success = data['success'];
         var arrayCds = data['response'];
-        cd(arrayCds);
 
-      },
+        selezioneGeneri(arrayCds);
+      }/*,
       error: function(request, state, error) {
         var error = request['statusText'];
         alert('Attenzione ' + error);
-      }
+      }*/
     });
 
   }
+
+  function selezioneGeneri(array){
+    $('#btn').click(function(){
+     cd(array);
+   });
+  }
 function cd (array) {
+  $('#cds-container .cd').remove();
+  var genereInput =$('#genere').val();
+  console.log(genereInput);
+
   for (var i = 0; i < array.length; i++) {
-  console.log(array[i]);
 
-  var template = $('#template').html();
-  var compiled = Handlebars.compile(template);
-  var target = $('#cds-container');
+    var genereObj = array[i].genre;
 
-  var cdHtml = compiled(array[i]);
-  target.append(cdHtml);
+    if (genereObj == genereInput) {
+      var template = $('#template').html();
+      var compiled = Handlebars.compile(template);
+      var target = $('#cds-container');
+      var cdHtml = compiled(array[i]);
+      target.append(cdHtml);
+    }
   }
 }
+
+
 
 function init() {
  getInitCall();
